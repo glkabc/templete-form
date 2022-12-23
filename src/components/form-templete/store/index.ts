@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
-import { reactive } from 'vue'
+import { markRaw } from 'vue'
 import { StoreType, ItemConfigType, ViewListType } from './type'
+import { Compass, Dish, Position, FullScreen } from '@element-plus/icons-vue'
 
 export const formTemplateStore = defineStore('formTemplateStore', {
   state: (): StoreType => ({
@@ -10,17 +11,22 @@ export const formTemplateStore = defineStore('formTemplateStore', {
         {
           title: '表格',
           type: 'TableCore',
-          icon: '<el-icon><Dish /></el-icon>',
+          icon: markRaw(Dish),
         },
         {
           title: '输入框',
           type: 'InputCore',
-          icon: '<el-icon><Compass /></el-icon>'
+          icon: markRaw(Compass),
         },
         {
           title: '数字输入框',
           type: 'InputNumberCore',
-          icon: '<el-icon><Position /></el-icon>'
+          icon: markRaw(Position),
+        },
+        {
+          title: '多选框',
+          type: 'checkboxGroupCore',
+          icon: markRaw(FullScreen)
         }
       ],
       layoutTool: []

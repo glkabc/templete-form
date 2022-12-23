@@ -1,6 +1,9 @@
 <template>
   <div class="center-container">
-    <draggable 
+    <div class="result-tools">
+      tools
+    </div>
+    <draggable
       :model-value="viewList" 
       group="people"
       class="dragArea"
@@ -14,12 +17,14 @@
           :class="['item', element.config.id === currentConfig?.id ? 'current' : '']"
           @click="setCurrent(element.config, index)"
         > 
-          {{element.config.title}} {{ element.config.id }}
+          <p>
+            <el-icon><component :is="element.config.icon" /></el-icon>
+            <CloseBold class="icon" style="width: 1em; height: 1em; margin-right: 8px" @click="handleClickDel(element.config, index)"/>
+          </p>
           <Com
             :config="element.config"
-            :key="index"
+            :key="element.config.id"
           />
-          <CloseBold class="icon" style="width: 1em; height: 1em; margin-right: 8px" @click="handleClickDel(element.config, index)"/>
         </div>
       </template>
     </draggable>
@@ -52,11 +57,11 @@
     }
   }
   const dragStart = (...list: any[]) => {
-    // console.log(list, 'dragStart Center')
+    console.log(list, 'dragStart Center')
   }
 
   const dragEnd = (...list: any[]) => {
-    // console.log(list, 'dragEnd Center')
+    console.log(list, 'dragEnd Center')
   }
 
   const setCurrent = (element: ItemConfigType, index: number) => setCurrentConfig(element)
@@ -70,10 +75,17 @@
   margin: 0px 5px;
   flex: 1;
   box-sizing: border-box;
+  .result-tools {
+    height: 30px;
+    border: 1px solid #666;
+    padding: 5px;
+    margin: 5px;
+    line-height: 30px;
+  }
   .dragArea {
     width: 100%;
     min-width: 400px;
-    height: calc(100vh - 40px);
+    height: calc(100vh - 90px);
     overflow-y: auto;
   }
   .item {

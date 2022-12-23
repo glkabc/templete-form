@@ -9,8 +9,8 @@
     >
       <template #item="{element}">
         <div class="item" :key="element.type">
+          <el-icon><component :is="element.icon" /></el-icon>
           {{element.title}}
-          <i class="el-dish"></i>
         </div>
       </template>
     </draggable>
@@ -35,7 +35,8 @@
 
 <style scoped lang="scss">
 .left-container {
-  width: 200px;
+  width: 250px;
+  min-width: 150px;
   border: 1px solid #eee;
   height: calc(100vh - 20px);
   .item {

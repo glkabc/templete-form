@@ -1,19 +1,18 @@
 <template>
   <component
-    :ref="refView"
     :is="data.type"
   />
 </template>
 
 <script lang="ts" setup>
-  import { reactive, ref, markRaw } from 'vue'
+  import { reactive, markRaw } from 'vue'
   import { ItemConfigType, ToolType } from './store/type'
   import InputNumber from './components/InputNumber.vue'
-  import Input from './components/Input.vue'
+  import Input from './components/input/Input.vue'
   import Table from './components/Table.vue'
+  import CheckBox from './components/checkbox/index.vue'
 
   const props = defineProps<{config: ItemConfigType}>()
-  const refView = ref(null)
 
   const data = reactive<{
     type: any
@@ -29,8 +28,8 @@
         return markRaw(InputNumber);
       case 'TableCore':
         return markRaw(Table);
-      default:
-        return 'input'
+      case 'checkboxGroupCore':
+        return markRaw(CheckBox);
     }
   }
   

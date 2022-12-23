@@ -14,6 +14,7 @@
 <style lang="scss" scoped>
 .right-container {
   width: 200px;
+  min-width: 200px;
   border: 1px solid #eee;
   padding: 10px;
   margin: 0px 5px;

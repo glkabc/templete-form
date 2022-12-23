@@ -1,4 +1,6 @@
-type ToolType = 'TableCore' | 'InputCore' | 'InputNumberCore'
+import { Component } from "vue"
+
+type ToolType = 'TableCore' | 'InputCore' | 'InputNumberCore' | 'checkboxGroupCore'
 
 interface ItemConfigType extends BaseToolType {
   id?: string
@@ -7,7 +9,7 @@ interface ItemConfigType extends BaseToolType {
 interface BaseToolType {
   title: string,
   type: ToolType,
-  icon?: string
+  icon?: string | Component
 }
 
 interface ViewListType {
