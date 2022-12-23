@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
   import draggable from 'vuedraggable'
-  import { formTemplateStore } from './store'
+  import { formTemplateStore } from '../store'
   import { storeToRefs } from 'pinia'
   const store = formTemplateStore()
   const { tool } = storeToRefs(store)

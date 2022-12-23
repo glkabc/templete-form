@@ -35,9 +35,9 @@
   import draggable from 'vuedraggable'
   import _ from 'loadsh'
   import { storeToRefs } from 'pinia';
-  import  { formTemplateStore } from './store'
-  import { ItemConfigType } from './store/type';
-  import Com from './Com.vue'
+  import  { formTemplateStore } from '../store'
+  import { ItemConfigType } from '../store/type';
+  import Com from '../components/Com.vue'
   const store = formTemplateStore()
   const { viewList, currentConfig } = storeToRefs(store)
   const { setCurrentConfig, deleteOne, sortList } = store

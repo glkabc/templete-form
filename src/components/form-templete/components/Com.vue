@@ -6,11 +6,11 @@
 
 <script lang="ts" setup>
   import { reactive, markRaw } from 'vue'
-  import { ItemConfigType, ToolType } from './store/type'
-  import InputNumber from './components/InputNumber.vue'
-  import Input from './components/input/Input.vue'
-  import Table from './components/Table.vue'
-  import CheckBox from './components/checkbox/index.vue'
+  import { ItemConfigType, ToolType } from '../store/type'
+  import InputNumber from './InputNumber.vue'
+  import Input from './input/Input.vue'
+  import Table from './Table.vue'
+  import CheckBox from './checkbox/index.vue'
 
   const props = defineProps<{config: ItemConfigType}>()
 

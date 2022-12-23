@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
  import { storeToRefs } from 'pinia';
-  import  { formTemplateStore } from './store'
+  import  { formTemplateStore } from '../store'
   const store = formTemplateStore()
   const { currentConfig } = storeToRefs(store)
 </script>

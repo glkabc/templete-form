@@ -7,9 +7,9 @@
 </template>
 
 <script setup lang="ts">
-  import Left from './Left.vue'
-  import Center from './Center.vue'
-  import Right from './Right.vue'
+  import Left from './layout/Left.vue'
+  import Center from './layout/Center.vue'
+  import Right from './layout/Right.vue'
 </script>
 
 <style scoped lang="scss">
