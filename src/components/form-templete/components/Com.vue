@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
   import { reactive, markRaw } from 'vue'
-  import { ItemConfigType, ToolType } from '../store/type'
+  import { ItemConfigType, IToolComTypeName } from '../store/type'
   import InputNumber from './InputNumber.vue'
   import Input from './input/Input.vue'
   import Table from './Table.vue'
@@ -20,7 +20,7 @@
     type: switchComponent(props.config.type)
   })
 
-  function switchComponent(type: ToolType) {
+  function switchComponent(type: IToolComTypeName) {
     switch(type) {
       case 'InputCore':
         return markRaw(Input);

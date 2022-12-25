@@ -1,6 +1,6 @@
 <template>
   <div class="right-container">
-    {{ currentConfig }}
+    {{ currentEditor }}
   </div>
 </template>
 
@@ -8,7 +8,7 @@
  import { storeToRefs } from 'pinia';
   import  { formTemplateStore } from '../store'
   const store = formTemplateStore()
-  const { currentConfig } = storeToRefs(store)
+  const { currentEditor } = storeToRefs(store)
 </script>
 
 <style lang="scss" scoped>

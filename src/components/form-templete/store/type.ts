@@ -1,34 +1,53 @@
 import { Component } from "vue"
 
-type ToolType = 'TableCore' | 'InputCore' | 'InputNumberCore' | 'checkboxGroupCore'
+type IToolComTypeName = 
+  'TableCore' |
+  'InputCore' |
+  'InputNumberCore' |
+  'checkboxGroupCore'
 
-interface ItemConfigType extends BaseToolType {
-  id?: string
+  interface IBaseTool {
+  title: string,
+  type: IToolComTypeName,
+  icon?: Component
 }
 
-interface BaseToolType {
-  title: string,
-  type: ToolType,
-  icon?: string | Component
+interface ILayoutTool extends Omit<IBaseTool, 'type'> {
+  type: 'col'
+}
+interface ITool {
+  baseTool: IBaseTool[],
+  layoutTool: ILayoutTool[]
+}
+
+interface IFormConfig {
+  modle: any,
+  inline?: boolean,
+  size: 'large' | 'default' | 'small'
+}
+
+interface ItemConfigType extends IBaseTool {
+  id?: string,
 }
 
 interface ViewListType {
   config: ItemConfigType,
+  children?: ViewListType[]
 }
 
 interface StoreType {
-  currentConfig: ItemConfigType | null,
-  tool: {
-    baseTool: BaseToolType[],
-    layoutTool: {}[]
-  },
-  viewList: ViewListType[]
+  formConfig: IFormConfig | null,
+  tool: ITool,
+  viewList: ViewListType[],
+  currentEditor: ItemConfigType | null
 }
 
 export type {
+  ITool,
   StoreType,
-  BaseToolType,
+  IBaseTool,
   ItemConfigType,
   ViewListType,
-  ToolType
+  IToolComTypeName,
+  IFormConfig,
 }

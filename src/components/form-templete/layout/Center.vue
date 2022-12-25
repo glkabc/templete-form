@@ -2,32 +2,39 @@
   <div class="center-container">
     <div class="result-tools">
       tools
+      <el-button @click="handleSubmit">submit</el-button>
     </div>
-    <draggable
-      :model-value="viewList" 
-      group="people"
-      class="dragArea"
-      item-key="id"
-      @change="dragSet"
-      @start="dragStart" 
-      @end="dragEnd" 
+    <el-form
+      ref="formRef"
     >
-      <template #item="{element, index}">
-        <div
-          :class="['item', element.config.id === currentConfig?.id ? 'current' : '']"
-          @click="setCurrent(element.config, index)"
-        > 
-          <p>
-            <el-icon><component :is="element.config.icon" /></el-icon>
-            <CloseBold class="icon" style="width: 1em; height: 1em; margin-right: 8px" @click="handleClickDel(element.config, index)"/>
-          </p>
-          <Com
-            :config="element.config"
-            :key="element.config.id"
-          />
-        </div>
-      </template>
-    </draggable>
+      <draggable
+        :model-value="viewList" 
+        group="people"
+        class="dragArea"
+        item-key="id"
+        @change="dragSet"
+        @start="dragStart" 
+        @end="dragEnd" 
+      >
+        <template #item="{element, index}">
+          <div
+            :class="['item', element.config.id === currentEditor?.id ? 'current' : '']"
+            @click="setCurrent(element.config, index)"
+          > 
+            <p>
+              <el-icon><component :is="element.config.icon" /></el-icon>
+              <CloseBold class="icon" style="width: 1em; height: 1em; margin-right: 8px" @click="handleClickDel(element.config, index)"/>
+            </p>
+            <el-form-item :label="element.config.id">
+              <Com
+                :config="element.config"
+                :key="element.config.id"
+              />
+            </el-form-item>
+          </div>
+        </template>
+      </draggable>
+    </el-form>
   </div>
 </template>
 
@@ -38,8 +45,11 @@
   import  { formTemplateStore } from '../store'
   import { ItemConfigType } from '../store/type';
   import Com from '../components/Com.vue'
+  import { ref } from 'vue';
   const store = formTemplateStore()
-  const { viewList, currentConfig } = storeToRefs(store)
+  const formRef = ref()
+
+  const { viewList, currentEditor } = storeToRefs(store)
   const { setCurrentConfig, deleteOne, sortList } = store
 
   const dragSet = (data: any) => {
@@ -66,6 +76,13 @@
 
   const setCurrent = (element: ItemConfigType, index: number) => setCurrentConfig(element)
   const handleClickDel = (element: ItemConfigType, index: number) => deleteOne(index)
+
+  const handleSubmit = () => {
+    console.log(formRef.value, '表单数据')
+    formRef.value?.validate((isValid: boolean, invalidFields?: any) => {
+      console.log(isValid, invalidFields, '-----')
+    })
+  }
 </script>
 
 <style lang="scss" scoped>
