@@ -12,7 +12,7 @@ export const formTemplateStore = defineStore('formTemplateStore', {
     currentEditor: null
   }),
   actions: {
-    setCurrentConfig(data: ItemConfigType) {
+    setCurrentConfig(data: ViewListType) {
       this.currentEditor = data
     },
     deleteOne(index: number) {

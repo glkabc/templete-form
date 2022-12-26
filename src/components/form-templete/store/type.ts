@@ -33,7 +33,7 @@ interface ItemConfigType extends IBaseTool {
 
 interface ViewListType {
   config: ItemConfigType,
-  children?: ViewListType[]
+  children?: ViewListType[],
 }
 
 interface StoreType {
@@ -41,7 +41,7 @@ interface StoreType {
   formData: any | null,
   tool: ITool,
   viewList: ViewListType[],
-  currentEditor: ItemConfigType | null
+  currentEditor: ViewListType | null
 }
 
 export type {

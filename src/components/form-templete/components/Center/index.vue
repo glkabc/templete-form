@@ -7,43 +7,24 @@
     @change="(payload) => dragSet(payload, props.data)"
   >
     <template #item="{ element, index }">
-      <div
+      <ItemView 
         v-if="element.config.type !== 'col'"
-        :class="[ 'item', element.config.id === props.currentEditor?.id ? 'current' : '']"
-        @click="setCurrent(element.config, index)"
+        :elemet-id="element.config.id"
+        :current-element-id="props.currentEditor?.config?.id"
+        @handle-click-del="handleClickDel(element, index, props.data)"
+        @set-current="setCurrent(element, index)"
       >
-        <div>
-          <el-icon><component :is="element.config.icon" /></el-icon>
-          <CloseBold
-            class="icon"
-            style="width: 1em; height: 1em; margin-right: 8px"
-            @click="handleClickDel(element.config, index, props.data)"
-          />
-        </div>
-        <el-form-item :label="element.config.id">
-          <Com :config="element.config" :key="element.config.id" />
-        </el-form-item>
-      </div>
-      <el-row
+        <Com :data="element" :key="element.config.id" />
+      </ItemView>
+      <RowLayout
         v-else
-        :gutter="20"
-        class="layout-row"
-        style="padding: 0px; margin: 5px"
+        @handleClickDel="handleClickDel(element, index, props.data)"
       >
-        <div class="row_bar">
-          <CloseBold
-            class="icon"
-            style="width: 1em; height: 1em; margin-right: 8px"
-            @click="handleClickDel(element.config, index, props.data)"
-          />grid 布局
-        </div>
-        <el-col :span="24" class="layout-col">
-          <Center 
-            :data="element.children"
-            :current-editor="props.currentEditor"
-          />
-        </el-col>
-      </el-row>
+        <Center 
+          :data="element.children"
+          :current-editor="props.currentEditor"
+        />
+      </RowLayout>
     </template>
   </draggable>
 </template>
@@ -53,13 +34,15 @@ import _ from "loadsh";
 import draggable from "vuedraggable";
 import { formTemplateStore } from "../../store";
 import { ItemConfigType, ViewListType } from "../../store/type";
+import RowLayout from "../layout/RowLayout.vue";
 import Com from "../Com.vue";
 import Center from './index.vue'
+import ItemView from "./ItemView.vue";
 const store = formTemplateStore();
-const { setCurrentConfig, deleteOne, sortList, changeFormFiledName } = store;
+const { setCurrentConfig, changeFormFiledName } = store;
 const props = defineProps<{
   data?: ViewListType[],
-  currentEditor: ItemConfigType | null
+  currentEditor: ViewListType | null
 }>()
 
 const dragSet = (data: any, source: any) => {
@@ -67,8 +50,10 @@ const dragSet = (data: any, source: any) => {
     const newIndex = data.added.newIndex
     const element = data.added.element
     if (element.config) {
+      // 已有的组件插入
       source.splice(newIndex, 0, element)
     } else {
+      // 新组件插入
       const onlyOneId = _.uniqueId("contact_")
       const formKeyName = element.type + '_' + onlyOneId
       const addData = { ...element, id: onlyOneId, formKeyName }
@@ -77,21 +62,29 @@ const dragSet = (data: any, source: any) => {
       source.splice(newIndex, 0, { config: addData, children: [] })
     }
   } else if (data.moved) {
+    // 平级组件间移动
     const { element, newIndex, oldIndex } = data.moved;
     source.splice(oldIndex, 1)
     source.splice(newIndex, 0, element)
   } else if (data.removed) {
+    // 跨级组件间移动
     const { oldIndex } = data.removed;
     source.splice(oldIndex, 1)
   }
 };
 
-const setCurrent = (element: ItemConfigType, index: number) => {
+const setCurrent = (element: ViewListType, index: number) => {
   setCurrentConfig(element);
 }
   
-const handleClickDel = (element: ItemConfigType, index: number, source?: ViewListType[]) => {
-  changeFormFiledName(element.formKeyName, _, 'del');
+const handleClickDel = (element: ViewListType, index: number, source?: ViewListType[]) => {
+  if(element.children) {
+    // 同步删除对应子组件中对应的表单字段
+    element.children.forEach((item, i) => {
+      handleClickDel(item, i, element.children)
+    })
+  }
+  changeFormFiledName(element.config.formKeyName, _, 'del');
   source?.splice(index, 1)
 }
 </script>
@@ -100,36 +93,5 @@ const handleClickDel = (element: ItemConfigType, index: number, source?: ViewLis
   .dragArea {
     width: 100%;
     height: 100%;
-    .layout-row {
-      border: 1px solid rebeccapurple;
-      box-sizing: content-box;
-      min-height: 150px;
-      .row_bar {
-        width: 100%;
-        height: 20px;
-        line-height: 20px;
-        padding: 10px;
-        margin: 5px;
-        background-color: #eee;
-      }
-      .layout-col {
-        padding: 10px;
-      }
-    }
-  }
-  .item {
-    border: 1px solid #eee;
-    padding: 10px;
-    margin: 5px;
-    cursor: grab;
-    user-select: none;
-    .icon {
-      width: 30px;
-      height: 20px;
-      cursor: auto;
-    }
-  }
-  .current {
-    border: 1px solid red;
   }
 </style>
