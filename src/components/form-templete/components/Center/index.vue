@@ -12,14 +12,14 @@
         :class="[ 'item', element.config.id === props.currentEditor?.id ? 'current' : '']"
         @click="setCurrent(element.config, index)"
       >
-        <p>
+        <div>
           <el-icon><component :is="element.config.icon" /></el-icon>
           <CloseBold
             class="icon"
             style="width: 1em; height: 1em; margin-right: 8px"
             @click="handleClickDel(element.config, index, props.data)"
           />
-        </p>
+        </div>
         <el-form-item :label="element.config.id">
           <Com :config="element.config" :key="element.config.id" />
         </el-form-item>
@@ -30,7 +30,13 @@
         class="layout-row"
         style="padding: 0px; margin: 5px"
       >
-        <div>col</div>
+        <div class="row_bar">
+          <CloseBold
+            class="icon"
+            style="width: 1em; height: 1em; margin-right: 8px"
+            @click="handleClickDel(element.config, index, props.data)"
+          />grid 布局
+        </div>
         <el-col :span="24" class="layout-col">
           <Center 
             :data="element.children"
@@ -98,6 +104,14 @@ const handleClickDel = (element: ItemConfigType, index: number, source?: ViewLis
       border: 1px solid rebeccapurple;
       box-sizing: content-box;
       min-height: 150px;
+      .row_bar {
+        width: 100%;
+        height: 20px;
+        line-height: 20px;
+        padding: 10px;
+        margin: 5px;
+        background-color: #eee;
+      }
       .layout-col {
         padding: 10px;
       }

@@ -13,11 +13,11 @@ import {
 } from '@element-plus/icons-vue'
 
 const tool: ITool = {
-    baseTool: [
-        {
-            title: '表格',
-            type: 'TableCore',
-            icon: markRaw(Dish),
+  baseTool: [
+		{
+			title: '表格',
+			type: 'TableCore',
+			icon: markRaw(Dish),
 		},
 		{
 			title: '输入框',
@@ -34,13 +34,13 @@ const tool: ITool = {
 			type: 'checkboxGroupCore',
 			icon: markRaw(FullScreen)
 		}
-    ],
-    layoutTool: [
+  ],
+	layoutTool: [
 		{
 			title: '栅格布局',
 			type: 'col',
 			icon: markRaw(Grid)
 		}
-    ]
+	]
 }
 export default tool
