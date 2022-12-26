@@ -33,7 +33,7 @@
 import _ from "loadsh";
 import draggable from "vuedraggable";
 import { formTemplateStore } from "../../store";
-import { ItemConfigType, ViewListType } from "../../store/type";
+import { ViewListType } from "../../store/type";
 import RowLayout from "../layout/RowLayout.vue";
 import Com from "../Com.vue";
 import Center from './index.vue'

@@ -1,19 +1,19 @@
 <template>
   <div class="right-container">
     {{ currentEditor }}
-    <el-input :model-value="currentEditor?.formKeyName" @input="change" />
+    <InputConfig
+      v-if="currentEditor?.config"
+      :config="currentEditor"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
   import { storeToRefs } from 'pinia';
-  import  { formTemplateStore } from '../store'
+  import { formTemplateStore } from '../store';
+  import InputConfig from '../components/input/Config.vue'
   const store = formTemplateStore()
   const { currentEditor } = storeToRefs(store)
-
-  const change = (value: string | number) => {
-    console.log(value)
-  }
 </script>
 
 <style lang="scss" scoped>
