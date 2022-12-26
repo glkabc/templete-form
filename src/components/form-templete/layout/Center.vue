@@ -6,8 +6,13 @@
     </div>
     <el-form
       ref="formRef"
+      :model="formData"
+      class="form-container"
     >
-      <Center />
+      <Center
+       :data="viewList"
+       :currentEditor="currentEditor"
+      />
     </el-form>
   </div>
 </template>
@@ -15,10 +20,14 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import Center from '../components/Center/index.vue'
+  import { formTemplateStore } from '../store';
+  import { storeToRefs } from 'pinia';
   const formRef = ref()
+  const store = formTemplateStore();
+  const { viewList, currentEditor, formData } = storeToRefs(store);
 
   const handleSubmit = () => {
-    console.log(formRef.value, '表单数据')
+    console.log(formData.value, '表单数据')
     // formRef.value?.validate((isValid: boolean, invalidFields?: any) => {
     //   console.log(isValid, invalidFields, '-----')
     // })
@@ -39,26 +48,9 @@
     margin: 5px;
     line-height: 30px;
   }
-  .dragArea {
-    width: 100%;
-    min-width: 400px;
+  .form-container {
     height: calc(100vh - 90px);
     overflow-y: auto;
-  }
-  .item {
-    border: 1px solid #eee;
-    padding: 10px;
-    margin: 5px;
-    cursor: grab;
-    user-select: none;
-    .icon {
-      width: 30px;
-      height: 20px;
-      cursor: auto;
-    }
-  }
-  .current {
-    border: 1px solid red;
   }
 }
 </style>

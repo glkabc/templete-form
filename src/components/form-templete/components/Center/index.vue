@@ -1,19 +1,15 @@
 <template>
   <draggable
-    :model-value="viewList"
+    :model-value="props.data"
     group="people"
     class="dragArea"
     item-key="id"
-    @change="dragSet"
-    @start="dragStart"
-    @end="dragEnd"
+    @change="(payload) => dragSet(payload, props.data)"
   >
     <template #item="{ element, index }">
       <div
-        :class="[
-          'item',
-          element.config.id === currentEditor?.id ? 'current' : '',
-        ]"
+        v-if="element.config.type !== 'col'"
+        :class="[ 'item', element.config.id === props.currentEditor?.id ? 'current' : '']"
         @click="setCurrent(element.config, index)"
       >
         <p>
@@ -21,53 +17,105 @@
           <CloseBold
             class="icon"
             style="width: 1em; height: 1em; margin-right: 8px"
-            @click="handleClickDel(element.config, index)"
+            @click="handleClickDel(element.config, index, props.data)"
           />
         </p>
         <el-form-item :label="element.config.id">
           <Com :config="element.config" :key="element.config.id" />
         </el-form-item>
       </div>
+      <el-row
+        v-else
+        :gutter="20"
+        class="layout-row"
+        style="padding: 0px; margin: 5px"
+      >
+        <div>col</div>
+        <el-col :span="24" class="layout-col">
+          <Center 
+            :data="element.children"
+            :current-editor="props.currentEditor"
+          />
+        </el-col>
+      </el-row>
     </template>
   </draggable>
 </template>
 
 <script lang="ts" setup>
-import draggable from "vuedraggable";
 import _ from "loadsh";
-import { storeToRefs } from "pinia";
+import draggable from "vuedraggable";
 import { formTemplateStore } from "../../store";
-import { ItemConfigType } from "../../store/type";
+import { ItemConfigType, ViewListType } from "../../store/type";
 import Com from "../Com.vue";
+import Center from './index.vue'
 const store = formTemplateStore();
+const { setCurrentConfig, deleteOne, sortList, changeFormFiledName } = store;
+const props = defineProps<{
+  data?: ViewListType[],
+  currentEditor: ItemConfigType | null
+}>()
 
-const { viewList, currentEditor } = storeToRefs(store);
-const { setCurrentConfig, deleteOne, sortList } = store;
-
-const dragSet = (data: any) => {
-  console.log(data, "------");
+const dragSet = (data: any, source: any) => {
   if (data.added) {
-    const addData = {
-      ...data.added.element,
-      id: _.uniqueId("contact_"),
-    };
-    sortList({ config: addData }, data.added.newIndex);
-    setCurrentConfig(addData);
+    const newIndex = data.added.newIndex
+    const element = data.added.element
+    if (element.config) {
+      source.splice(newIndex, 0, element)
+    } else {
+      const onlyOneId = _.uniqueId("contact_")
+      const formKeyName = element.type + '_' + onlyOneId
+      const addData = { ...element, id: onlyOneId, formKeyName }
+      changeFormFiledName(formKeyName, '')
+      setCurrentConfig(addData);
+      source.splice(newIndex, 0, { config: addData, children: [] })
+    }
   } else if (data.moved) {
     const { element, newIndex, oldIndex } = data.moved;
-    sortList(element, newIndex, oldIndex);
+    source.splice(oldIndex, 1)
+    source.splice(newIndex, 0, element)
+  } else if (data.removed) {
+    const { oldIndex } = data.removed;
+    source.splice(oldIndex, 1)
   }
 };
-const dragStart = (...list: any[]) => {
-  console.log(list, "dragStart Center");
-};
 
-const dragEnd = (...list: any[]) => {
-  console.log(list, "dragEnd Center");
-};
-
-const setCurrent = (element: ItemConfigType, index: number) =>
+const setCurrent = (element: ItemConfigType, index: number) => {
   setCurrentConfig(element);
-const handleClickDel = (element: ItemConfigType, index: number) =>
-  deleteOne(index);
+}
+  
+const handleClickDel = (element: ItemConfigType, index: number, source?: ViewListType[]) => {
+  changeFormFiledName(element.formKeyName, _, 'del');
+  source?.splice(index, 1)
+}
 </script>
+
+<style lang="scss" scoped>
+  .dragArea {
+    width: 100%;
+    height: 100%;
+    .layout-row {
+      border: 1px solid rebeccapurple;
+      box-sizing: content-box;
+      min-height: 150px;
+      .layout-col {
+        padding: 10px;
+      }
+    }
+  }
+  .item {
+    border: 1px solid #eee;
+    padding: 10px;
+    margin: 5px;
+    cursor: grab;
+    user-select: none;
+    .icon {
+      width: 30px;
+      height: 20px;
+      cursor: auto;
+    }
+  }
+  .current {
+    border: 1px solid red;
+  }
+</style>

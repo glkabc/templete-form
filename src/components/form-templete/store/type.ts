@@ -28,6 +28,7 @@ interface IFormConfig {
 
 interface ItemConfigType extends IBaseTool {
   id?: string,
+  formKeyName: string
 }
 
 interface ViewListType {
@@ -37,6 +38,7 @@ interface ViewListType {
 
 interface StoreType {
   formConfig: IFormConfig | null,
+  formData: any | null,
   tool: ITool,
   viewList: ViewListType[],
   currentEditor: ItemConfigType | null
