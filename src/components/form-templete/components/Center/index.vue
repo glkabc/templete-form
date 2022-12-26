@@ -10,7 +10,7 @@
       <ItemView 
         v-if="element.config.type !== 'col'"
         :elemet-id="element.config.id"
-        :current-element-id="props.currentEditor?.config?.id"
+        :current-editor-element-id="props.currentEditor?.config?.id"
         @handle-click-del="handleClickDel(element, index, props.data)"
         @set-current="setCurrent(element, index)"
       >

@@ -1,6 +1,6 @@
 <template>
   <div
-    :class="['item', props.elemetId === props.currentElementId ? 'current' : '']"
+    :class="['item', props.elemetId === props.currentEditorElementId ? 'current' : '']"
     @click="setCurrent"
   >
     <div>
@@ -21,7 +21,7 @@
   const props = defineProps<{
     icon?: any,
     elemetId: string,
-    currentElementId?: string
+    currentEditorElementId?: string
   }>()
 
   const emits = defineEmits<{
