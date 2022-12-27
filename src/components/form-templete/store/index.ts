@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
-import { StoreType, ItemConfigType, ViewListType } from './type'
+import { StoreType, ViewListType } from './type'
 import tool from './tools'
-
 
 export const formTemplateStore = defineStore('formTemplateStore', {
   state: (): StoreType => ({
@@ -12,7 +11,7 @@ export const formTemplateStore = defineStore('formTemplateStore', {
     currentEditor: null
   }),
   actions: {
-    setCurrentConfig(data: ViewListType) {
+    setCurrentConfig(data: ViewListType | null) {
       this.currentEditor = data
     },
     deleteOne(index: number) {
@@ -31,6 +30,26 @@ export const formTemplateStore = defineStore('formTemplateStore', {
       } else {
         delete this.formData[keyName]
       }
+    },
+    updateViewList(data: ViewListType) {
+      const id  = data.config.id
+      const tempData = this.viewList
+
+      function __(tempData: ViewListType[]) {
+        for (let i = 0; i < tempData.length; i++) {
+          const cur = tempData[i]
+          if (cur.children && cur.children.length > 0) {
+            __(cur.children)
+          } else {
+            if (cur.config.id === id) {
+              tempData[i] = data
+              break;
+            }
+          }
+        }
+      }
+
+      __(tempData);
     }
   }
 })

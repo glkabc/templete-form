@@ -58,7 +58,7 @@ const dragSet = (data: any, source: any) => {
       const formKeyName = element.type + '_' + onlyOneId
       const addData = { ...element, id: onlyOneId, formKeyName }
       changeFormFiledName(formKeyName, '')
-      setCurrentConfig(addData);
+      setCurrentConfig({ config: addData, children: [] });
       source.splice(newIndex, 0, { config: addData, children: [] })
     }
   } else if (data.moved) {
@@ -83,6 +83,10 @@ const handleClickDel = (element: ViewListType, index: number, source?: ViewListT
     element.children.forEach((item, i) => {
       handleClickDel(item, i, element.children)
     })
+  }
+
+  if (element.config.id === store.currentEditor?.config.id) {
+    setCurrentConfig(null);
   }
   changeFormFiledName(element.config.formKeyName, _, 'del');
   source?.splice(index, 1)

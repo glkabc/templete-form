@@ -7,6 +7,20 @@
 </template>
 
 <script lang="ts" setup>
+  const props = defineProps({
+    type: {
+      type: String,
+      default: () => 'default'
+    },
+    valueKeyName: {
+      type: String,
+      default: () => ''
+    },
+    data: {
+      type: Object,
+      default: () => {}
+    }
+  })
   const tableData = [
   {
     date: '2016-05-03',
