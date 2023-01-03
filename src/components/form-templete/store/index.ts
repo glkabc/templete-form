@@ -6,7 +6,7 @@ export const formTemplateStore = defineStore('formTemplateStore', {
   state: (): StoreType => ({
     tool,
     formConfig: null,
-    formData: null,
+    formData: {},
     viewList: [],
     currentEditor: null
   }),

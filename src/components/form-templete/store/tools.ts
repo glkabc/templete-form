@@ -17,21 +17,25 @@ const tool: ITool = {
 		{
 			title: '表格',
 			type: 'TableCore',
+			toolType: 'tool',
 			icon: markRaw(Dish),
 		},
 		{
 			title: '输入框',
 			type: 'InputCore',
+			toolType: 'tool',
 			icon: markRaw(Compass),
 		},
 		{
 			title: '数字输入框',
 			type: 'InputNumberCore',
+			toolType: 'tool',
 			icon: markRaw(Position),
 		},
 		{
 			title: '多选框',
 			type: 'checkboxGroupCore',
+			toolType: 'tool',
 			icon: markRaw(FullScreen)
 		}
   ],
@@ -39,6 +43,7 @@ const tool: ITool = {
 		{
 			title: '栅格布局',
 			type: 'col',
+			toolType: 'layoutTool',
 			icon: markRaw(Grid)
 		}
 	]

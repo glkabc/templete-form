@@ -8,22 +8,34 @@
   >
     <template #item="{ element, index }">
       <ItemView 
-        v-if="element.config.type !== 'col'"
+        v-if="element.type !== 'layoutTool'"
         :elemet-id="element.config.id"
         :current-editor-element-id="props.currentEditor?.config?.id"
         @handle-click-del="handleClickDel(element, index, props.data)"
-        @set-current="setCurrent(element, index)"
+        @set-current="setCurrent(index, element)"
       >
         <Com :data="element" :key="element.config.id" />
       </ItemView>
       <RowLayout
         v-else
+        :data="element"
+        :current-editor="props.currentEditor"
+        :index="index"
         @handleClickDel="handleClickDel(element, index, props.data)"
+        @set-current="(i, d) => setCurrent(i , d)"
+        @drag-set="(p, d) => dragSet(p, d)"
       >
-        <Center 
-          :data="element.children"
-          :current-editor="props.currentEditor"
-        />
+        <template #item="{data, key}">
+          <ItemView 
+            v-if="data.type !== 'layoutTool'"
+            :elemet-id="data.config.id"
+            :current-editor-element-id="props.currentEditor?.config?.id"
+            @handle-click-del="handleClickDel(data, key, element)"
+            @set-current="setCurrent(key, data)"
+          >
+            <Com :data="data" :key="data.config.id" />
+          </ItemView>
+        </template>
       </RowLayout>
     </template>
   </draggable>
@@ -36,7 +48,6 @@ import { formTemplateStore } from "../../store";
 import { ViewListType } from "../../store/type";
 import RowLayout from "../layout/RowLayout.vue";
 import Com from "../Com.vue";
-import Center from './index.vue'
 import ItemView from "./ItemView.vue";
 const store = formTemplateStore();
 const { setCurrentConfig, changeFormFiledName } = store;
@@ -45,36 +56,51 @@ const props = defineProps<{
   currentEditor: ViewListType | null
 }>()
 
-const dragSet = (data: any, source: any) => {
+const dragSet = (data: any, source?: ViewListType[]) => {
+  console.log(data, source, '全景数据')
   if (data.added) {
     const newIndex = data.added.newIndex
     const element = data.added.element
     if (element.config) {
       // 已有的组件插入
-      source.splice(newIndex, 0, element)
+      source?.splice(newIndex, 0, element)
     } else {
       // 新组件插入
       const onlyOneId = _.uniqueId("contact_")
       const formKeyName = element.type + '_' + onlyOneId
-      const addData = { ...element, id: onlyOneId, formKeyName }
-      changeFormFiledName(formKeyName, '')
-      setCurrentConfig({ config: addData, children: [] });
-      source.splice(newIndex, 0, { config: addData, children: [] })
+      const type = data.added.element.toolType
+      const addData: ViewListType = {
+        type,
+        key: onlyOneId,
+        config: {
+          ...element,
+          id: onlyOneId,
+          formKeyName
+        },
+        children: [],
+      }
+      changeFormFiledName(formKeyName, addData.config.type === 'InputNumberCore' ? 0 : '')
+      setCurrentConfig(addData);
+      source?.splice(newIndex, 0, addData)
     }
   } else if (data.moved) {
     // 平级组件间移动
     const { element, newIndex, oldIndex } = data.moved;
-    source.splice(oldIndex, 1)
-    source.splice(newIndex, 0, element)
+    source?.splice(oldIndex, 1)
+    source?.splice(newIndex, 0, element)
   } else if (data.removed) {
     // 跨级组件间移动
     const { oldIndex } = data.removed;
-    source.splice(oldIndex, 1)
+    source?.splice(oldIndex, 1)
   }
 };
 
-const setCurrent = (element: ViewListType, index: number) => {
-  setCurrentConfig(element);
+const setCurrent = (index: number, element?: ViewListType | ViewListType[]) => {
+  if (element && Array.isArray(element)) {
+    setCurrentConfig(element[index])
+  } else {
+    element && setCurrentConfig(element);
+  }
 }
   
 const handleClickDel = (element: ViewListType, index: number, source?: ViewListType[]) => {

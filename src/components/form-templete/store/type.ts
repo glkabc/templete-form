@@ -1,4 +1,5 @@
 import { Component } from "vue"
+import { IRowLayout } from "../components/layout/type"
 
 type IToolComTypeName = 
   'TableCore' |
@@ -6,9 +7,14 @@ type IToolComTypeName =
   'InputNumberCore' |
   'checkboxGroupCore'
 
-  interface IBaseTool {
-  title: string,
-  type: IToolComTypeName,
+type IToolType = 'tool' | 'layoutTool'
+
+type ICom = IRowLayout
+
+interface IBaseTool {
+  title: string
+  type: IToolComTypeName
+  toolType: IToolType
   icon?: Component
 }
 
@@ -26,19 +32,21 @@ interface IFormConfig {
   size: 'large' | 'default' | 'small'
 }
 
-interface ItemConfigType extends IBaseTool {
+interface IComConfig extends IBaseTool {
   id?: string,
   formKeyName: string
 }
 
-interface ViewListType {
-  config: ItemConfigType,
-  children?: ViewListType[],
+interface ViewListType<T = IComConfig | ICom> {
+  type: IToolType
+  key: string
+  config: T
+  children: ViewListType[]
 }
 
 interface StoreType {
   formConfig: IFormConfig | null,
-  formData: any | null,
+  formData: Record<any, any>,
   tool: ITool,
   viewList: ViewListType[],
   currentEditor: ViewListType | null
@@ -48,7 +56,7 @@ export type {
   ITool,
   StoreType,
   IBaseTool,
-  ItemConfigType,
+  IComConfig,
   ViewListType,
   IToolComTypeName,
   IFormConfig,

@@ -1,8 +1,10 @@
 <template>
   <div class="right-container">
-    {{ currentEditor }}
-    <el-tabs>
-      <el-tab-pane label="表单配置" name="first">表单配置</el-tab-pane>
+    <el-tabs v-model="activeName">
+      <el-tab-pane label="表单配置" name="first">
+        表单配置
+        <vue-json-pretty :data="currentEditor" />
+      </el-tab-pane>
       <el-tab-pane label="配置" name="second">
         <component
           v-if="currentEditor?.config"
@@ -17,13 +19,17 @@
 
 <script setup lang="ts">
   import { storeToRefs } from 'pinia';
+  import VueJsonPretty from 'vue-json-pretty';
+  import 'vue-json-pretty/lib/styles.css';
   import { formTemplateStore } from '../store';
   import InputConfig from '../components/input/Config.vue';
   import InputNumberConfig from '../components/InputNumber/Config.vue';
-  import CheckBoxConfig from '../components/checkbox/Config.vue'
+  import CheckBoxConfig from '../components/checkbox/Config.vue';
+  import RowLayoutConfig from '../components/layout/RowLayoutConfig.vue'
   import { IToolComTypeName, ViewListType } from '../store/type';
-  import { markRaw } from 'vue'
+  import { markRaw, ref } from 'vue'
   const store = formTemplateStore()
+  const activeName = ref('first')
   const { currentEditor } = storeToRefs(store)
   const { updateViewList, changeFormFiledName } = store
 
@@ -33,7 +39,7 @@
     updateViewList(data)
   }
 
-  const getComponent = (type?: IToolComTypeName) => {
+  const getComponent = (type?: any) => {
     switch(type) {
       case 'InputCore':
         return markRaw(InputConfig);
@@ -41,6 +47,8 @@
         return markRaw(InputNumberConfig);
       case 'checkboxGroupCore':
         return markRaw(CheckBoxConfig);
+      case 'col':
+          return markRaw(RowLayoutConfig);
       default:
         return markRaw(InputConfig);;
     }
