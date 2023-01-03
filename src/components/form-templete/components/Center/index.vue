@@ -30,7 +30,7 @@
             v-if="data.type !== 'layoutTool'"
             :elemet-id="data.config.id"
             :current-editor-element-id="props.currentEditor?.config?.id"
-            @handle-click-del="handleClickDel(data, key, element)"
+            @handle-click-del="handleClickDel(data, key, element.children)"
             @set-current="setCurrent(key, data)"
           >
             <Com :data="data" :key="data.config.id" />
@@ -79,6 +79,8 @@ const dragSet = (data: any, source?: ViewListType[]) => {
         },
         children: [],
       }
+
+      console.log(addData, 'added')
       changeFormFiledName(formKeyName, addData.config.type === 'InputNumberCore' ? 0 : '')
       setCurrentConfig(addData);
       source?.splice(newIndex, 0, addData)
@@ -104,6 +106,7 @@ const setCurrent = (index: number, element?: ViewListType | ViewListType[]) => {
 }
   
 const handleClickDel = (element: ViewListType, index: number, source?: ViewListType[]) => {
+  console.log(element, index, source, 'will del data to see')
   if(element.children) {
     // 同步删除对应子组件中对应的表单字段
     element.children.forEach((item, i) => {

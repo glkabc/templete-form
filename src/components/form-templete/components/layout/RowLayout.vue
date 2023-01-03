@@ -1,7 +1,7 @@
 <template>
   <el-row
     :gutter="props.gutter"
-    class="layout-row"
+    :class="['layout-row', isCurrent ? 'current' : '']"
   >
     <div class="row_bar" @click="setCurrent(props.index, props.data)">
       <CloseBold
@@ -33,16 +33,6 @@
             name="item"
             v-bind="{data: element, key: index}"
           />
-
-          <!-- <ItemView
-            v-else
-            :elemet-id="element.config.id"
-            :current-editor-element-id="props.currentEditor?.config?.id"
-            @handle-click-del="handleClickDel(element, index, props.data)"
-            @set-current="setCurrent(index, element)"
-          >
-            <Com :data="element" :key="element.config.id" />
-          </ItemView> -->
         </el-col>
       </template>
     </draggable>
@@ -53,9 +43,8 @@
   import { ViewListType } from '../../store/type';
   import draggable from "vuedraggable";
   import Center from '../Center/index.vue';
-  import Com from "../Com.vue";
-  import ItemView from "../Center/ItemView.vue";
   import { IRowLayout } from './type';
+  import { computed } from 'vue';
 
   const props = defineProps<{
     gutter?: {
@@ -72,7 +61,7 @@
     (e: 'dragSet', payload: any, data?: ViewListType[]): void
   }>()
 
-  const handleClickDel = (element: ViewListType<IRowLayout>, index: number) => {
+  const handleClickDel = () => {
     emits('handleClickDel')
   }
 
@@ -83,6 +72,10 @@
   const dragSet = (payload: any, data?: ViewListType[]) => {
     emits('dragSet', payload, data)
   }
+
+  const isCurrent = computed(() => {
+    return props.data.key === props.currentEditor?.key
+  })
 </script>
 
 <style lang="scss" scoped>
@@ -104,6 +97,9 @@
     .dragArea {
       width: 100%;
       height: 100%;
+    }
+    &.current {
+      border: 1px solid red;
     }
   }
 </style>
