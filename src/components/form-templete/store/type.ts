@@ -19,7 +19,7 @@ interface IBaseTool {
 }
 
 interface ILayoutTool extends Omit<IBaseTool, 'type'> {
-  type: 'col'
+  type: 'col' | 'card'
 }
 interface ITool {
   baseTool: IBaseTool[],

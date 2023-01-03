@@ -9,7 +9,8 @@ import {
 	Dish,
 	Position,
 	FullScreen,
-	Grid
+	Grid,
+	CreditCard
 } from '@element-plus/icons-vue'
 
 const tool: ITool = {
@@ -45,6 +46,12 @@ const tool: ITool = {
 			type: 'col',
 			toolType: 'layoutTool',
 			icon: markRaw(Grid)
+		},
+		{
+			title: '卡片布局',
+			type: 'card',
+			toolType: 'layoutTool',
+			icon: markRaw(CreditCard)
 		}
 	]
 }

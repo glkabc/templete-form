@@ -16,7 +16,13 @@
       >
         <Com :data="element" :key="element.config.id" />
       </ItemView>
-      <RowLayout
+
+      <Layout
+        v-else
+        :data="element"
+        :key="index"
+      />
+      <!-- <RowLayout
         v-else
         :data="element"
         :current-editor="props.currentEditor"
@@ -26,7 +32,7 @@
         @drag-set="(p, d) => dragSet(p, d)"
       >
         <template #item="{data, key}">
-          <ItemView 
+          <ItemView
             v-if="data.type !== 'layoutTool'"
             :elemet-id="data.config.id"
             :current-editor-element-id="props.currentEditor?.config?.id"
@@ -36,7 +42,7 @@
             <Com :data="data" :key="data.config.id" />
           </ItemView>
         </template>
-      </RowLayout>
+      </RowLayout> -->
     </template>
   </draggable>
 </template>
@@ -47,6 +53,7 @@ import draggable from "vuedraggable";
 import { formTemplateStore } from "../../store";
 import { ViewListType } from "../../store/type";
 import RowLayout from "../layout/RowLayout.vue";
+import Layout from '../layout/index.vue'
 import Com from "../Com.vue";
 import ItemView from "./ItemView.vue";
 const store = formTemplateStore();
