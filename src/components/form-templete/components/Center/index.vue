@@ -22,27 +22,6 @@
         :data="element"
         :key="index"
       />
-      <!-- <RowLayout
-        v-else
-        :data="element"
-        :current-editor="props.currentEditor"
-        :index="index"
-        @handleClickDel="handleClickDel(element, index, props.data)"
-        @set-current="(i, d) => setCurrent(i , d)"
-        @drag-set="(p, d) => dragSet(p, d)"
-      >
-        <template #item="{data, key}">
-          <ItemView
-            v-if="data.type !== 'layoutTool'"
-            :elemet-id="data.config.id"
-            :current-editor-element-id="props.currentEditor?.config?.id"
-            @handle-click-del="handleClickDel(data, key, element.children)"
-            @set-current="setCurrent(key, data)"
-          >
-            <Com :data="data" :key="data.config.id" />
-          </ItemView>
-        </template>
-      </RowLayout> -->
     </template>
   </draggable>
 </template>
@@ -52,7 +31,6 @@ import _ from "loadsh";
 import draggable from "vuedraggable";
 import { formTemplateStore } from "../../store";
 import { ViewListType } from "../../store/type";
-import RowLayout from "../layout/RowLayout.vue";
 import Layout from '../layout/index.vue'
 import Com from "../Com.vue";
 import ItemView from "./ItemView.vue";
