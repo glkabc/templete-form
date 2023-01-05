@@ -23,9 +23,9 @@
   import RowLayout from './RowLayout.vue';
   import CardLayoutVue from './CardLayout.vue';
   import Center from '../Center/index.vue';
-  import useDelHook from '../Center/hooks/handelClickDel'
-  const { delOneItem } = useDelHook()
+  import { useDelHook } from '../Center/hooks';
 
+  const { delOneItem } = useDelHook()
   const emits = defineEmits<{
     (e: 'handleClickDel'): void
     (e: 'setCurrent'): void
@@ -42,7 +42,6 @@
   const componentType = computed(() => props.data.config.type)
 
   const dragSet = (element: ViewListType, source?: ViewListType[]) => {
-    console.log('layout change drag set', element, source)
     emits('dragSet', element, source)
   }
 

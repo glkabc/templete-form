@@ -1,7 +1,7 @@
 <script setup lang="ts">
-  import FormTemplate from './components/form-templete/index.vue'
+  import { DragFormToolView } from './components/form-templete'
 </script>
 
 <template>
-  <FormTemplate />
+  <DragFormToolView />
 </template>

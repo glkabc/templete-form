@@ -55,10 +55,10 @@
   import ItemView from "../Center/ItemView.vue";
   import Layout from './index.vue';
   import { IRowLayout } from './type';
-  import { computed, watch } from 'vue';
-  import { formTemplateStore } from '../../store';
-  const store = formTemplateStore();
-  const { setCurrentConfig } = store;
+  import { computed } from 'vue';
+  import { useSetCurrent } from '../Center/hooks';
+
+  const { setCurrent } = useSetCurrent()
 
   const props = defineProps<{
     gutter?: {
@@ -74,31 +74,13 @@
     (e: 'dragSet', payload: ViewListType, data?: ViewListType[]): void
   }>()
 
-  // const handleClickDel = () => {
-  //   emits('handleClickDel')
-  // }
-
   const handleClickDel = (data: ViewListType, index: number, source?: ViewListType[]) => {
-    console.log(data, index, source)
     emits('handleClickDel', data, index, source)
   }
 
-  const setCurrent = (index: number, element?: ViewListType | ViewListType[]) => {
-    if (element && Array.isArray(element)) {
-      setCurrentConfig(element[index])
-    } else {
-      element && setCurrentConfig(element);
-    }
-  }
-
   const dragSet = (payload: any, data?: ViewListType[]) => {
-    console.log('change drag set')
     emits('dragSet', payload, data)
   }
-
-  watch(() => props.data, (newData, oldData) => {
-    console.log(newData, oldData, 'change data with watch')
-  })
 
   const isCurrent = computed(() => {
     return props.data.key === props.currentEditor?.key

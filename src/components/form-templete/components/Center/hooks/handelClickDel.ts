@@ -1,8 +1,6 @@
 import { formTemplateStore } from "../../../store";
 import { ViewListType } from "../../../store/type";
 
-
-
 export default function () {
   const store = formTemplateStore();
   const { setCurrentConfig, changeFormFiledName } = store;

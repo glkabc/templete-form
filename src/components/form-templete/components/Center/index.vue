@@ -35,19 +35,19 @@
 <script lang="ts" setup>
 import _ from "loadsh";
 import draggable from "vuedraggable";
-import { formTemplateStore } from "../../store";
 import { ViewListType } from "../../store/type";
 import Layout from '../layout/index.vue'
 import Com from "../Com.vue";
 import ItemView from "./ItemView.vue";
-import useDelHook from './hooks/handelClickDel'
-const { delOneItem } = useDelHook()
-const store = formTemplateStore();
-const { setCurrentConfig, changeFormFiledName } = store;
+import { useDelHook, useSetCurrent } from "./hooks";
+
 const props = defineProps<{
   data?: ViewListType[],
   currentEditor: ViewListType | null
 }>()
+
+const { delOneItem } = useDelHook()
+const { setCurrent, setCurrentConfig, changeFormFiledName } = useSetCurrent()
 
 const dragSet = (data: any, source?: ViewListType[]) => {
   if (data.added) {
@@ -72,7 +72,6 @@ const dragSet = (data: any, source?: ViewListType[]) => {
         children: [],
       }
 
-      console.log(addData, 'added')
       changeFormFiledName(formKeyName, addData.config.type === 'InputNumberCore' ? 0 : '')
       setCurrentConfig(addData);
       source?.splice(newIndex, 0, addData)
@@ -88,14 +87,6 @@ const dragSet = (data: any, source?: ViewListType[]) => {
     source?.splice(oldIndex, 1)
   }
 };
-
-const setCurrent = (index: number, element?: ViewListType | ViewListType[]) => {
-  if (element && Array.isArray(element)) {
-    setCurrentConfig(element[index])
-  } else {
-    element && setCurrentConfig(element);
-  }
-}
   
 const handleClickDel = (element: ViewListType, index: number, source?: ViewListType[]) => {
   delOneItem(element, index, source)
