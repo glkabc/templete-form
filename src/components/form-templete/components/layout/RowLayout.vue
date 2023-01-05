@@ -7,7 +7,7 @@
       <CloseBold
         class="icon"
         style="width: 1em; height: 1em; margin-right: 8px"
-        @click="handleClickDel(props.data, 0)"
+        @click="handleClickDel(props.data, props.index)"
       />grid 布局
     </div>
     <draggable
