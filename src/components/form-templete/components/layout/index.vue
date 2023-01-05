@@ -23,6 +23,8 @@
   import RowLayout from './RowLayout.vue';
   import CardLayoutVue from './CardLayout.vue';
   import Center from '../Center/index.vue';
+  import useDelHook from '../Center/hooks/handelClickDel'
+  const { delOneItem } = useDelHook()
 
   const emits = defineEmits<{
     (e: 'handleClickDel'): void
@@ -45,7 +47,7 @@
   }
 
   const handleClickDel = (data: ViewListType, index: number, source?: ViewListType[]) => {
-    console.log(data, index, source, ';---------------;')
+    delOneItem(data, index, source ?? props.parentData)
   }
   
 </script>

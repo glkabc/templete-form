@@ -7,7 +7,7 @@
       <CloseBold
         class="icon"
         style="width: 1em; height: 1em; margin-right: 8px"
-        @click="handleClickDel(null, 0, props.data.children)"
+        @click="handleClickDel(props.data, 0)"
       />grid 布局
     </div>
     <draggable
@@ -28,6 +28,7 @@
             :key="index"
             :index="index"
             :current-editor="props.currentEditor"
+            :parent-data="props.data.children"
             @drag-set="(child_el, child_sour) => dragSet(child_el, child_sour)"
             @handle-click-del="handleClickDel(element, index, props.data.children)"
             @set-current="setCurrent(index, element)"

@@ -40,6 +40,8 @@ import { ViewListType } from "../../store/type";
 import Layout from '../layout/index.vue'
 import Com from "../Com.vue";
 import ItemView from "./ItemView.vue";
+import useDelHook from './hooks/handelClickDel'
+const { delOneItem } = useDelHook()
 const store = formTemplateStore();
 const { setCurrentConfig, changeFormFiledName } = store;
 const props = defineProps<{
@@ -48,7 +50,6 @@ const props = defineProps<{
 }>()
 
 const dragSet = (data: any, source?: ViewListType[]) => {
-  console.log(data, source, '全景数据')
   if (data.added) {
     const newIndex = data.added.newIndex
     const element = data.added.element
@@ -97,19 +98,7 @@ const setCurrent = (index: number, element?: ViewListType | ViewListType[]) => {
 }
   
 const handleClickDel = (element: ViewListType, index: number, source?: ViewListType[]) => {
-  console.log(element, index, source, 'will del data to see')
-  if(element.children) {
-    // 同步删除对应子组件中对应的表单字段
-    element.children.forEach((item, i) => {
-      handleClickDel(item, i, element.children)
-    })
-  }
-
-  if (element.config.id === store.currentEditor?.config.id) {
-    setCurrentConfig(null);
-  }
-  changeFormFiledName(element.config.formKeyName, _, 'del');
-  source?.splice(index, 1)
+  delOneItem(element, index, source)
 }
 </script>
 
