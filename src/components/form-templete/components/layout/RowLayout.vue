@@ -3,11 +3,11 @@
     :gutter="props.gutter"
     :class="['layout-row', isCurrent ? 'current' : '']"
   >
-    <div class="row_bar" @click="setCurrent(props.index, props.data)">
+    <div class="row_bar" @click="() => setCurrent(0, props.data)">
       <CloseBold
         class="icon"
         style="width: 1em; height: 1em; margin-right: 8px"
-        @click="handleClickDel"
+        @click="handleClickDel(null, 0, props.data.children)"
       />grid 布局
     </div>
     <draggable
@@ -22,17 +22,25 @@
           :span="props.data.config.col ?? 24"
           class="layout-col"
         >
-          <Center
+          <Layout
             v-if="element.type === 'layoutTool'"
-            :data="[element]"
+            :data="element"
+            :key="index"
+            :index="index"
             :current-editor="props.currentEditor"
+            @drag-set="(child_el, child_sour) => dragSet(child_el, child_sour)"
+            @handle-click-del="handleClickDel(element, index, props.data.children)"
+            @set-current="setCurrent(index, element)"
           />
-
-          <slot 
+          <ItemView
             v-else
-            name="item"
-            v-bind="{data: element, key: index}"
-          />
+            :elemet-id="element.config.id"
+            :current-editor-element-id="props.currentEditor?.config?.id"
+            @handle-click-del="handleClickDel(element, index, props.data.children)"
+            @set-current="setCurrent(index, element)"
+          >
+            <Com :data="element" :key="element.config.id" />
+          </ItemView>
         </el-col>
       </template>
     </draggable>
@@ -42,9 +50,14 @@
 <script lang="ts" setup>
   import { ViewListType } from '../../store/type';
   import draggable from "vuedraggable";
-  import Center from '../Center/index.vue';
+  import Com from "../Com.vue";
+  import ItemView from "../Center/ItemView.vue";
+  import Layout from './index.vue';
   import { IRowLayout } from './type';
-  import { computed } from 'vue';
+  import { computed, watch } from 'vue';
+  import { formTemplateStore } from '../../store';
+  const store = formTemplateStore();
+  const { setCurrentConfig } = store;
 
   const props = defineProps<{
     gutter?: {
@@ -56,22 +69,35 @@
     currentEditor: ViewListType | null
   }>()
   const emits = defineEmits<{
-    (e: 'handleClickDel'): void
-    (e: 'setCurrent', index: number, data?: ViewListType<IRowLayout> | ViewListType[]): void
-    (e: 'dragSet', payload: any, data?: ViewListType[]): void
+    (e: 'handleClickDel', data: ViewListType, index: number, source?: ViewListType[]): void
+    (e: 'dragSet', payload: ViewListType, data?: ViewListType[]): void
   }>()
 
-  const handleClickDel = () => {
-    emits('handleClickDel')
+  // const handleClickDel = () => {
+  //   emits('handleClickDel')
+  // }
+
+  const handleClickDel = (data: ViewListType, index: number, source?: ViewListType[]) => {
+    console.log(data, index, source)
+    emits('handleClickDel', data, index, source)
   }
 
-  const setCurrent = (index: number, data?: ViewListType<IRowLayout> | ViewListType[]) => {
-    emits('setCurrent', index, data)
+  const setCurrent = (index: number, element?: ViewListType | ViewListType[]) => {
+    if (element && Array.isArray(element)) {
+      setCurrentConfig(element[index])
+    } else {
+      element && setCurrentConfig(element);
+    }
   }
 
   const dragSet = (payload: any, data?: ViewListType[]) => {
+    console.log('change drag set')
     emits('dragSet', payload, data)
   }
+
+  watch(() => props.data, (newData, oldData) => {
+    console.log(newData, oldData, 'change data with watch')
+  })
 
   const isCurrent = computed(() => {
     return props.data.key === props.currentEditor?.key
@@ -96,6 +122,7 @@
     }
     .dragArea {
       width: 100%;
+      min-height: 100px;
       height: 100%;
     }
     &.current {

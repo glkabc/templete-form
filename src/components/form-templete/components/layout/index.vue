@@ -1,49 +1,51 @@
 <template>
   <RowLayout
-    v-if="data.type === 'layoutTool'"
-  >
-    <template #item="{data, key}">
-      <!-- <ItemView 
-        v-if="data.type !== 'layoutTool'"
-        :elemet-id="data.config.id"
-        :current-editor-element-id="props.currentEditor?.config?.id"
-        @handle-click-del="handleClickDel(data, key, element.children)"
-        @set-current="setCurrent(key, data)"
-      >
-        <Com :data="data" :key="data.config.id" />
-      </ItemView> -->
-    </template>
-  </RowLayout>
-</template>
-
-<!-- 
-  <RowLayout
-    v-else
-    :data="element"
+    v-if="componentType === 'col'"
+    :data="props.data"
     :current-editor="props.currentEditor"
-    :index="index"
-    @handleClickDel="handleClickDel(element, index, props.data)"
-    @set-current="(i, d) => setCurrent(i , d)"
-    @drag-set="(p, d) => dragSet(p, d)"
+    :index="props.index"
+    @handle-click-del="(data, index, source) => handleClickDel(data, index, source)"
+    @drag-set="(element, source) => dragSet(element, source)"
+  />
+
+  <CardLayoutVue 
+    v-else-if="componentType === 'card'"
+    @handle-click-del="emits('handleClickDel')"
+    @set-current="emits('setCurrent')"
   >
-    <template #item="{data, key}">
-      <ItemView
-        v-if="data.type !== 'layoutTool'"
-        :elemet-id="data.config.id"
-        :current-editor-element-id="props.currentEditor?.config?.id"
-        @handle-click-del="handleClickDel(data, key, element.children)"
-        @set-current="setCurrent(key, data)"
-      >
-        <Com :data="data" :key="data.config.id" />
-      </ItemView>
-    </template>
-  </RowLayout> 
--->
+    <Center :data="props.data.children" :currentEditor="props.currentEditor" />
+  </CardLayoutVue>
+</template>
 
 <script lang="ts" setup>
   import { ViewListType } from '../../store/type';
+  import { computed } from 'vue';
+  import RowLayout from './RowLayout.vue';
+  import CardLayoutVue from './CardLayout.vue';
+  import Center from '../Center/index.vue';
+
+  const emits = defineEmits<{
+    (e: 'handleClickDel'): void
+    (e: 'setCurrent'): void
+    (e: 'dragSet', element: ViewListType, source?: ViewListType[]): void
+  }>()
 
   const props = defineProps<{
     data: ViewListType
+    currentEditor: ViewListType | null
+    index: number
+    parentData?: ViewListType[]
   }>()
+
+  const componentType = computed(() => props.data.config.type)
+
+  const dragSet = (element: ViewListType, source?: ViewListType[]) => {
+    console.log('layout change drag set', element, source)
+    emits('dragSet', element, source)
+  }
+
+  const handleClickDel = (data: ViewListType, index: number, source?: ViewListType[]) => {
+    console.log(data, index, source, ';---------------;')
+  }
+  
 </script>

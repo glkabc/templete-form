@@ -21,7 +21,13 @@
         v-else
         :data="element"
         :key="index"
-      />
+        :index="index"
+        :parentData="props.data"
+        :current-editor="props.currentEditor"
+        @handle-click-del="handleClickDel(element, index, props.data)"
+        @set-current="setCurrent(index, element)"
+        @drag-set="(child_el, child_sour) => dragSet(child_el, child_sour)"
+      ></Layout>
     </template>
   </draggable>
 </template>
@@ -110,6 +116,7 @@ const handleClickDel = (element: ViewListType, index: number, source?: ViewListT
 <style lang="scss" scoped>
   .dragArea {
     width: 100%;
+    min-height: 100px;
     height: 100%;
   }
 </style>

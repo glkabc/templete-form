@@ -11,16 +11,16 @@ type IToolType = 'tool' | 'layoutTool'
 
 type ICom = IRowLayout
 
+interface ILayoutTool extends Omit<IBaseTool, 'type'> {
+  type: 'col' | 'card'
+}
 interface IBaseTool {
   title: string
-  type: IToolComTypeName
+  type: IToolComTypeName | Pick<ILayoutTool, 'type'>['type']
   toolType: IToolType
   icon?: Component
 }
 
-interface ILayoutTool extends Omit<IBaseTool, 'type'> {
-  type: 'col' | 'card'
-}
 interface ITool {
   baseTool: IBaseTool[],
   layoutTool: ILayoutTool[]
