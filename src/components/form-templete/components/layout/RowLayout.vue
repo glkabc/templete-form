@@ -110,6 +110,7 @@
     border: 1px solid rebeccapurple;
     box-sizing: content-box;
     min-height: 150px;
+    margin: 10px 5px;
     .row_bar {
       width: 100%;
       height: 20px;
