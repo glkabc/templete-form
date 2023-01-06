@@ -3,6 +3,7 @@
     <div class="result-tools">
       tools
       <el-button @click="handleSubmit">submit</el-button>
+      <el-button @click="handleClickPreview">预览</el-button>
     </div>
     <el-form
       ref="formRef"
@@ -31,6 +32,10 @@
     // formRef.value?.validate((isValid: boolean, invalidFields?: any) => {
     //   console.log(isValid, invalidFields, '-----')
     // })
+  }
+
+  const handleClickPreview = () => {
+    
   }
 </script>
 

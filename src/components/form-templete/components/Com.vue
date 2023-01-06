@@ -8,7 +8,7 @@
 
 <script lang="ts" setup>
   import { reactive, markRaw } from 'vue'
-  import { IToolComTypeName, ViewListType } from '../store/type'
+  import { IBaseToolComNameType, ViewListType } from '../store/type'
   import InputNumber from './InputNumber/InputNumber.vue'
   import Input from './input/Input.vue'
   import Table from './Table/Table.vue'
@@ -27,7 +27,7 @@
     type: switchComponent(props.data.config.type)
   })
 
-  function switchComponent(type: IToolComTypeName) {
+  function switchComponent(type: IBaseToolComNameType) {
     switch(type) {
       case 'InputCore':
         return markRaw(Input);

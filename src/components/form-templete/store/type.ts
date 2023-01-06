@@ -14,9 +14,12 @@ type ICom = IRowLayout
 interface ILayoutTool extends Omit<IBaseTool, 'type'> {
   type: 'col' | 'card'
 }
+
+type IBaseToolComNameType = IToolComTypeName | Pick<ILayoutTool, 'type'>['type']
+
 interface IBaseTool {
   title: string
-  type: IToolComTypeName | Pick<ILayoutTool, 'type'>['type']
+  type: IBaseToolComNameType
   toolType: IToolType
   icon?: Component
 }
@@ -60,4 +63,5 @@ export type {
   ViewListType,
   IToolComTypeName,
   IFormConfig,
+  IBaseToolComNameType,
 }

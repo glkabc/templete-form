@@ -11,8 +11,6 @@
             v-model="tool.baseTool"
             :group="{ name: 'people', pull: 'clone', put: false }"
             item-key="type"
-            @start="dragStart"
-            @end="dragEnd"
           >
             <template #item="{ element }">
               <el-menu-item class="item" :index="element.type">
@@ -35,8 +33,6 @@
             v-model="tool.layoutTool"
             :group="{ name: 'people', pull: 'clone', put: false }"
             item-key="type"
-            @start="dragStart"
-            @end="dragEnd"
           >
             <template #item="{ element }">
               <el-menu-item class="item" :index="element.type">
@@ -54,19 +50,12 @@
 </template>
 
 <script setup lang="ts">
-import draggable from "vuedraggable";
-import { formTemplateStore } from "../store";
-import { storeToRefs } from "pinia";
-const store = formTemplateStore();
-const { tool } = storeToRefs(store);
-
-const dragStart = (...list: any[]) => {
-  // console.log(list, 'dragStart Left')
-};
-
-const dragEnd = (...list: any[]) => {
-  // console.log(list, 'dragEnd Left')
-};
+  import draggable from "vuedraggable";
+  import { storeToRefs } from "pinia";
+  import { useStore } from "../hooks";
+  
+  const { store } = useStore()
+  const { tool } = storeToRefs(store);
 </script>
 
 <style scoped lang="scss">
