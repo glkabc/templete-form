@@ -16,7 +16,7 @@ type InputConfig = IInputConfig & IComConfig
 const inputConfig: IInputConfig = {
   placeholder: '请输入',
   inputType: 'string',
-  required: true,
+  required: false,
   rules: [
     { required: true, message: '内容不能为空', trigger: 'blur' },
   ]
