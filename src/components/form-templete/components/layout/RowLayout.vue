@@ -19,7 +19,7 @@
     >
       <template #item="{ element, index }">
         <el-col
-          :span="props.data.config.col ?? 24"
+          :span="config.col"
           class="layout-col"
         >
           <Layout
@@ -66,7 +66,7 @@
       default: () => 10
     },
     index: number,
-    data: ViewListType<IRowLayout>,
+    data: ViewListType,
     currentEditor: ViewListType | null
   }>()
   const emits = defineEmits<{
@@ -80,6 +80,11 @@
 
   const isCurrent = computed(() => {
     return props.data.key === props.currentEditor?.key
+  })
+
+  const config = computed(() => {
+    const data = props.data as unknown as ViewListType<IRowLayout>
+    return data.config
   })
 </script>
 
