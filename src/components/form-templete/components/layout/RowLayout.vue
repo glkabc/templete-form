@@ -29,7 +29,6 @@
             :index="index"
             :current-editor="props.currentEditor"
             :parent-data="props.data.children"
-            @drag-set="(child_el, child_sour) => dragSet(child_el, child_sour)"
             @handle-click-del="handleClickDel(element, index, props.data.children)"
             @set-current="setCurrent(index, element)"
           />
@@ -56,9 +55,10 @@
   import Layout from './index.vue';
   import { IRowLayout } from './type';
   import { computed } from 'vue';
-  import { useSetCurrent } from '../Center/hooks';
+  import { useDragSet, useSetCurrent } from '../../hooks';
 
   const { setCurrent } = useSetCurrent()
+  const { dragSet } = useDragSet()
 
   const props = defineProps<{
     gutter?: {
@@ -76,10 +76,6 @@
 
   const handleClickDel = (data: ViewListType, index: number, source?: ViewListType[]) => {
     emits('handleClickDel', data, index, source)
-  }
-
-  const dragSet = (payload: any, data?: ViewListType[]) => {
-    emits('dragSet', payload, data)
   }
 
   const isCurrent = computed(() => {

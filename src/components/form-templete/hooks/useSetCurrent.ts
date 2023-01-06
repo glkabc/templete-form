@@ -1,9 +1,8 @@
-import { formTemplateStore } from "../../../store";
-import { ViewListType } from "../../../store/type";
+import { ViewListType } from "../store/type";
+import useStore from "./useStore";
 
 export default function useSetCurrent() {
-  const store = formTemplateStore();
-  const { setCurrentConfig, changeFormFiledName } = store;
+  const { setCurrentConfig } = useStore()
 
   function setCurrent(index: number, element?: ViewListType | ViewListType[]) {
     if (element && Array.isArray(element)) {
@@ -14,8 +13,6 @@ export default function useSetCurrent() {
   }
 
   return {
-    setCurrent,
-    setCurrentConfig, 
-    changeFormFiledName
+    setCurrent
   }
 }

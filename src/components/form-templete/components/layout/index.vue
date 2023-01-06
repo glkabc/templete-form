@@ -5,7 +5,6 @@
     :current-editor="props.currentEditor"
     :index="props.index"
     @handle-click-del="(data, index, source) => handleClickDel(data, index, source)"
-    @drag-set="(element, source) => dragSet(element, source)"
   />
 
   <CardLayoutVue 
@@ -23,13 +22,12 @@
   import RowLayout from './RowLayout.vue';
   import CardLayoutVue from './CardLayout.vue';
   import Center from '../Center/index.vue';
-  import { useDelHook } from '../Center/hooks';
+  import { useDelHook } from '../../hooks';
 
   const { delOneItem } = useDelHook()
   const emits = defineEmits<{
     (e: 'handleClickDel'): void
     (e: 'setCurrent'): void
-    (e: 'dragSet', element: ViewListType, source?: ViewListType[]): void
   }>()
 
   const props = defineProps<{
@@ -40,10 +38,6 @@
   }>()
 
   const componentType = computed(() => props.data.config.type)
-
-  const dragSet = (element: ViewListType, source?: ViewListType[]) => {
-    emits('dragSet', element, source)
-  }
 
   const handleClickDel = (data: ViewListType, index: number, source?: ViewListType[]) => {
     delOneItem(data, index, source ?? props.parentData)

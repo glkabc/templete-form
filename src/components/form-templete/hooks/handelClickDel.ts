@@ -1,9 +1,8 @@
-import { formTemplateStore } from "../../../store";
-import { ViewListType } from "../../../store/type";
+import { ViewListType } from "../store/type";
+import useStore from "./useStore";
 
 export default function () {
-  const store = formTemplateStore();
-  const { setCurrentConfig, changeFormFiledName } = store;
+  const { setCurrentConfig, changeFormFiledName, store } = useStore()
   
   function delOneItem(element: ViewListType, index: number, source?: ViewListType[]) {
     console.log(element, index, source, 'will del data to see')

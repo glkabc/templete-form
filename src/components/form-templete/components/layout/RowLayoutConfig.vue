@@ -14,7 +14,7 @@
 
 <script lang="ts" setup>
   import { ViewListType } from '../../store/type';
-import { IRowLayout } from './type';
+  import { IRowLayout } from './type';
 
   const props = defineProps<{
     data: ViewListType<IRowLayout>

@@ -21,17 +21,17 @@
   import { storeToRefs } from 'pinia';
   import VueJsonPretty from 'vue-json-pretty';
   import 'vue-json-pretty/lib/styles.css';
-  import { formTemplateStore } from '../store';
   import InputConfig from '../components/input/Config.vue';
   import InputNumberConfig from '../components/InputNumber/Config.vue';
   import CheckBoxConfig from '../components/checkbox/Config.vue';
   import RowLayoutConfig from '../components/layout/RowLayoutConfig.vue'
-  import { IToolComTypeName, ViewListType } from '../store/type';
+  import { ViewListType } from '../store/type';
   import { markRaw, ref } from 'vue'
-  const store = formTemplateStore()
-  const activeName = ref('first')
+  import { useStore } from '../hooks';
+
+  const { store, updateViewList, changeFormFiledName } = useStore()
   const { currentEditor } = storeToRefs(store)
-  const { updateViewList, changeFormFiledName } = store
+  const activeName = ref('first')
 
   const change = (newValue: string, oldValue: string, data: ViewListType) => {
     changeFormFiledName(oldValue, '', 'del')
