@@ -40,7 +40,7 @@ interface IComConfig extends IBaseTool {
   formKeyName: string
 }
 
-interface ViewListType<T = IComConfig | ICom> {
+interface ViewListType<T = IComConfig> {
   type: IToolType
   key: string
   config: T

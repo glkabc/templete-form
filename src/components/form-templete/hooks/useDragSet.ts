@@ -1,9 +1,10 @@
+import { useComConfig, useStore } from ".";
 import { ViewListType } from "../store/type"
-import useStore from "./useStore"
 import _ from 'loadsh'
 
 export default function useDragSet() {
   const { changeFormFiledName, setCurrentConfig } = useStore();
+  const { comConfig } = useComConfig()
 
   function dragSet (data: any, source?: ViewListType[]) {
     if (data.added) {
@@ -17,11 +18,13 @@ export default function useDragSet() {
         const onlyOneId = _.uniqueId("contact_")
         const formKeyName = element.type + '_' + onlyOneId
         const type = data.added.element.toolType
+        const baseComConfig = comConfig(element.type)
         const addData: ViewListType = {
           type,
           key: onlyOneId,
           config: {
             ...element,
+            ...baseComConfig,
             id: onlyOneId,
             formKeyName
           },

@@ -11,9 +11,9 @@
         @click="handleClickDel"
       />
     </div>
-    <el-form-item :label="props.elemetId">
+    <!-- <el-form-item :label="props.elemetId"> -->
       <slot />
-    </el-form-item>
+    <!-- </el-form-item> -->
   </div>
 </template>
 

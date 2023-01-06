@@ -15,6 +15,8 @@
        :currentEditor="currentEditor"
       />
     </el-form>
+
+    <PreviewForm ref="previewForm" />
   </div>
 </template>
 
@@ -23,7 +25,10 @@
   import Center from '../components/Center/index.vue'
   import { formTemplateStore } from '../store';
   import { storeToRefs } from 'pinia';
-  const formRef = ref()
+  import PreviewForm from '../views/PreviewForm.vue';
+
+  const formRef = ref();
+  const previewForm = ref<InstanceType<typeof PreviewForm> | null>(null);
   const store = formTemplateStore();
   const { viewList, currentEditor, formData } = storeToRefs(store);
 
@@ -34,9 +39,8 @@
     // })
   }
 
-  const handleClickPreview = () => {
-    
-  }
+  const handleClickPreview = () => previewForm.value?.open()
+
 </script>
 
 <style lang="scss" scoped>

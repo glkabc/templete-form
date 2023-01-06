@@ -3,6 +3,7 @@
     :is="data.type"
     :valueKeyName="props.data.config.formKeyName"
     :data="store.formData"
+    :config="props.data.config"
   />
 </template>
 

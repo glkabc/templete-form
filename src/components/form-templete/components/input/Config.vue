@@ -6,6 +6,9 @@
         @input="change"
       />
     </el-form-item>
+    <el-form-item label="是否开启验证">
+      <el-switch v-model="props.data.config.required" />
+    </el-form-item>
   </div>
 </template>
 
@@ -25,4 +28,6 @@
     emits('change', value as string, config.formKeyName, props.data)
     config.formKeyName = value as string
   }
+
+  console.log(props.data.config, 'config input')
 </script>

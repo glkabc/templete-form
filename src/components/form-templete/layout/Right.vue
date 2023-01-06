@@ -1,11 +1,7 @@
 <template>
   <div class="right-container">
     <el-tabs v-model="activeName">
-      <el-tab-pane label="表单配置" name="first">
-        表单配置
-        <vue-json-pretty :data="currentEditor" />
-      </el-tab-pane>
-      <el-tab-pane label="配置" name="second">
+      <el-tab-pane label="组件配置" name="first">
         <component
           v-if="currentEditor?.config"
           :is="getComponent(currentEditor?.config.type)"
@@ -13,14 +9,15 @@
           @change="change"
         />
       </el-tab-pane>
+      <el-tab-pane label="表单配置" name="second">
+        表单配置
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script setup lang="ts">
   import { storeToRefs } from 'pinia';
-  import VueJsonPretty from 'vue-json-pretty';
-  import 'vue-json-pretty/lib/styles.css';
   import InputConfig from '../components/input/Config.vue';
   import InputNumberConfig from '../components/InputNumber/Config.vue';
   import CheckBoxConfig from '../components/checkbox/Config.vue';

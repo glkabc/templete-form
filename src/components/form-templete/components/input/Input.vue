@@ -1,24 +1,26 @@
 <template>
-  <el-input
-    placeholder="Please input"
-    :type="props.type"
-    v-model="props.data[props.valueKeyName]"
-  />
+  <el-form-item
+    :label="props.valueKeyName"
+    :rules="props.config.required ? props.config.rules : []"
+    :prop="props.valueKeyName"
+  >
+    <el-input
+      :placeholder="props.config.placeholder"
+      :type="props.type"
+      v-model="props.data[props.valueKeyName]"
+    />
+  </el-form-item>
 </template>
 
 <script lang="ts" setup>
-  const props = defineProps({
-    type: {
-      type: String,
-      default: () => 'default'
-    },
-    valueKeyName: {
-      type: String,
-      default: () => ''
-    },
-    data: {
-      type: Object,
-      default: () => {}
-    }
-  })
+  import { InputConfig } from './type';
+
+  const props = defineProps<{
+    type?: string
+    valueKeyName: string
+    data: Record<any, any>
+    config: InputConfig
+  }>()
+
+  console.log(props.config, '------')
 </script>
