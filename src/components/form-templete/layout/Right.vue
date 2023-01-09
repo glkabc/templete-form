@@ -6,7 +6,7 @@
           v-if="currentEditor?.config"
           :is="getComponent(currentEditor?.config.type)"
           :data="currentEditor"
-          @change="change"
+          :config="currentEditor.config"
         />
       </el-tab-pane>
       <el-tab-pane label="表单配置" name="second">
@@ -22,19 +22,12 @@
   import InputNumberConfig from '../components/InputNumber/Config.vue';
   import CheckBoxConfig from '../components/checkbox/Config.vue';
   import RowLayoutConfig from '../components/layout/RowLayoutConfig.vue'
-  import { ViewListType } from '../store/type';
-  import { markRaw, ref } from 'vue'
+  import { markRaw, ref } from 'vue';
   import { useStore } from '../hooks';
 
-  const { store, updateViewList, changeFormFiledName } = useStore()
+  const { store } = useStore()
   const { currentEditor } = storeToRefs(store)
   const activeName = ref('first')
-
-  const change = (newValue: string, oldValue: string, data: ViewListType) => {
-    changeFormFiledName(oldValue, '', 'del')
-    changeFormFiledName(newValue, '')
-    updateViewList(data)
-  }
 
   const getComponent = (type?: any) => {
     switch(type) {
@@ -54,8 +47,8 @@
 
 <style lang="scss" scoped>
 .right-container {
-  width: 200px;
-  min-width: 200px;
+  width: 250px;
+  min-width: 250px;
   border: 1px solid #eee;
   padding: 10px;
   margin: 0px 5px;

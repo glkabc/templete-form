@@ -31,7 +31,7 @@ export default function useDragSet() {
           children: [],
         }
   
-        changeFormFiledName(formKeyName, addData.config.type === 'InputNumberCore' ? 0 : '')
+        type === 'tool' && changeFormFiledName(formKeyName, addData.config.type === 'InputNumberCore' ? 0 : '')
         setCurrentConfig(addData);
         source?.splice(newIndex, 0, addData)
       }

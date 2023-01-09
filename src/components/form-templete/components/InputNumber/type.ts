@@ -1,21 +1,19 @@
 import { FormItemRule } from "element-plus"
 import { IComConfig } from "../../store/type"
 
-type InputType = 'default' | 'textarea' | 'password'
-
-interface IInputConfig {
+interface IInputNumberConfig {
   placeholder: string
-  inputType: string
   rules: FormItemRule[]
   required: boolean
   formLabel: string
+  min?: number
+  max?: number
 }
 
-type InputConfig = IInputConfig & IComConfig
+type InputNumberConfig = IInputNumberConfig & IComConfig
 
-const inputConfig: IInputConfig = {
+const inputNumberConfig: IInputNumberConfig = {
   placeholder: '请输入',
-  inputType: 'string',
   required: false,
   formLabel: '',
   rules: [
@@ -24,11 +22,10 @@ const inputConfig: IInputConfig = {
 }
 
 export type {
-  InputType,
-  IInputConfig,
-  InputConfig,
+  IInputNumberConfig,
+  InputNumberConfig,
 }
 
 export {
-  inputConfig
+  inputNumberConfig
 }

@@ -9,6 +9,8 @@
       ref="formRef"
       :model="formData"
       class="form-container"
+      label-position="top"
+      size="default"
     >
       <Center
        :data="viewList"

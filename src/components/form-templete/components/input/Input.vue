@@ -1,6 +1,6 @@
 <template>
   <el-form-item
-    :label="props.valueKeyName"
+    :label="config.formLabel"
     :rules="props.config.required ? props.config.rules : []"
     :prop="props.valueKeyName"
   >
@@ -22,5 +22,4 @@
     config: InputConfig
   }>()
 
-  console.log(props.config, '------')
 </script>

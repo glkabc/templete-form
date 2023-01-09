@@ -22,13 +22,15 @@ export const formTemplateStore = defineStore('formTemplateStore', {
       this.viewList.splice(newIndex, 0, data)
     },
     changeFormFiledName(keyName: string, defaultValue?: any, type?: 'del') {
-      if (type !== 'del') {
-        this.formData = {
-          ...this.formData,
-          [keyName]: defaultValue
+      if (typeof keyName === 'string') {
+        if (type !== 'del') {
+          this.formData = {
+            ...this.formData,
+            [keyName]: defaultValue
+          }
+        } else {
+          delete this.formData[keyName]
         }
-      } else {
-        delete this.formData[keyName]
       }
     },
     updateViewList(data: ViewListType) {
