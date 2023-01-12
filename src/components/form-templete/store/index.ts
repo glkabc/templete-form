@@ -5,7 +5,11 @@ import tool from './tools'
 export const formTemplateStore = defineStore('formTemplateStore', {
   state: (): StoreType => ({
     tool,
-    formConfig: null,
+    formConfig: {
+      size: 'default',
+      labelPosition: 'top',
+      labelWidth: 0
+    },
     formData: {},
     viewList: [],
     currentEditor: null

@@ -30,9 +30,9 @@ interface ITool {
 }
 
 interface IFormConfig {
-  modle: any,
-  inline?: boolean,
-  size: 'large' | 'default' | 'small'
+  size: 'large' | 'default' | 'small',
+  labelPosition: string
+  labelWidth: number
 }
 
 interface IComConfig extends IBaseTool {
@@ -48,7 +48,7 @@ interface ViewListType<T = IComConfig> {
 }
 
 interface StoreType {
-  formConfig: IFormConfig | null,
+  formConfig: IFormConfig,
   formData: Record<any, any>,
   tool: ITool,
   viewList: ViewListType[],

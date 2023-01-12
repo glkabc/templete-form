@@ -9,8 +9,9 @@
       ref="formRef"
       :model="formData"
       class="form-container"
-      label-position="top"
-      size="default"
+      :label-position="formConfig.labelPosition"
+      :label-width="formConfig.labelWidth ? formConfig.labelWidth + 'px' : ''"
+      :size="formConfig.size"
     >
       <Center
        :data="viewList"
@@ -25,20 +26,17 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import Center from '../components/Center/index.vue'
-  import { formTemplateStore } from '../store';
   import { storeToRefs } from 'pinia';
   import PreviewForm from '../views/PreviewForm.vue';
+  import { useStore } from '../hooks';
 
   const formRef = ref();
   const previewForm = ref<InstanceType<typeof PreviewForm> | null>(null);
-  const store = formTemplateStore();
-  const { viewList, currentEditor, formData } = storeToRefs(store);
+  const { store } = useStore();
+  const { viewList, currentEditor, formData, formConfig } = storeToRefs(store);
 
   const handleSubmit = () => {
     console.log(formData.value, '表单数据')
-    // formRef.value?.validate((isValid: boolean, invalidFields?: any) => {
-    //   console.log(isValid, invalidFields, '-----')
-    // })
   }
 
   const handleClickPreview = () => previewForm.value?.open()
