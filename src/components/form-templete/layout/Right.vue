@@ -30,10 +30,6 @@
   const { currentEditor } = storeToRefs(store)
   const activeName = ref('first')
 
-  watch(() => currentEditor.value, () => {
-    console.log('改变了')
-  })
-
   const getComponent = (type?: any) => {
     switch(type) {
       case 'InputCore':
