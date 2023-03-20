@@ -16,7 +16,8 @@
     "sass": "^1.57.1",
     "vue": "^3.2.45",
     "vue-json-pretty": "^2.2.3",
-    "vuedraggable": "^4.1.0"
+    "vuedraggable": "^4.1.0",
+    "my_utils": "workspace:~"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.0.0",
